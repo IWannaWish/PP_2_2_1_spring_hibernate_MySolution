@@ -12,8 +12,6 @@ import java.util.List;
 
 @Repository
 public class UserDaoImp implements UserDao {
-
-
     private SessionFactory sessionFactory;
 
     @Autowired
@@ -21,23 +19,20 @@ public class UserDaoImp implements UserDao {
         this.sessionFactory = sessionFactory;
     }
 
-    @Transactional
     @Override
     public void add(User user) {
         sessionFactory.getCurrentSession().save(user);
     }
 
-    @Transactional(readOnly = true)
     @Override
     @SuppressWarnings("unchecked")
-    public List<User> listUsers() {
+    public List<User> getListUser() {
         TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery("from User");
         return query.getResultList();
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    @Transactional
     public User getOwner(String model, int series) {
         TypedQuery<Car> query = sessionFactory.getCurrentSession().createQuery("from Car where model =:model and series=:series");
         query.setParameter("model", model);
